@@ -2,10 +2,11 @@ resource "aws_s3_bucket" "mnet-artifacts" {
   bucket = "mnet-artifacts"
   acl    = "private"
 
-  tags = {
-    Name        = "artifacts"
-    Environment = "Prod"
-  }
+  tags = "${merge(local.common_tags,
+    map(
+      "Name", "artifacts",
+      "Environment", "Prod"
+  ))}"
 }
 
 data "aws_iam_policy_document" "pd-mnet-artifact-rw" {
